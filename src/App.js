@@ -1,6 +1,7 @@
-import Notes from './Notes'
-import NewNote from './NewNote'
+import Notes from './components/Notes'
+import NewNote from './components/NewNote'
 import React from 'react'
+import VisibilityFilter from './components/VisibilityFilter'
 
 const App = () => {
   const filterSelected = (value) => {
@@ -10,14 +11,7 @@ const App = () => {
   return (
     <div>
       <NewNote />
-      <div>
-        all          <input type="radio" name="filter"
-          onChange={() => filterSelected('ALL')} />
-        important    <input type="radio" name="filter"
-          onChange={() => filterSelected('IMPORTANT')} />
-        nonimportant <input type="radio" name="filter"
-          onChange={() => filterSelected('NONIMPORTANT')} />
-      </div>
+      <VisibilityFilter/>
       <Notes />
     </div>
   )

@@ -1,3 +1,5 @@
+import { createSlice } from '@reduxjs/toolkit'
+
 const initialState = [
   {
     content: 'reducer defines how redux store works',
@@ -12,6 +14,7 @@ const initialState = [
 ]
 
 // Un reducer es una función a la que se le da el estado actual y una acción como parámetros
+/*
 const noteReducer = (state = initialState, action) => {
   switch(action.type) {
     case 'NEW_NOTE':
@@ -31,11 +34,43 @@ const noteReducer = (state = initialState, action) => {
       return state
   }
 }
+*/
 
 const generateId = () =>
   Number((Math.random() * 1000000).toFixed(0))
 
-export const createNote = (content) => {
+
+const noteSlice = createSlice({
+  name: 'notes',
+  initialState,
+  reducers: {
+    createNote(state, action) {
+      const content = action.payload
+      state.push({
+        content,
+        important: false,
+        id: generateId(),
+      })
+    },
+    toggleImportanceOf(state, action) {
+      const id = action.payload
+      const noteToChange = state.find(n => n.id === id)
+      const changedNote = { 
+        ...noteToChange, 
+        important: !noteToChange.important 
+      }
+
+      console.log(state)
+
+      return state.map(note =>
+        note.id !== id ? note : changedNote 
+      )     
+    }
+  },
+})
+
+/*
+const createNote = (content) => {
   return {
     type: 'NEW_NOTE',
     data: {
@@ -46,11 +81,13 @@ export const createNote = (content) => {
   }
 }
 
-export const toggleImportanceOf = (id) => {
+const toggleImportanceOf = (id) => {
   return {
     type: 'TOGGLE_IMPORTANCE',
     data: { id }
   }
 }
+*/
 
-export default noteReducer
+export const { createNote, toggleImportanceOf } = noteSlice.actions
+export default noteSlice.reducer
